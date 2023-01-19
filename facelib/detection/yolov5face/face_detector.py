@@ -21,9 +21,7 @@ IS_HIGH_VERSION = tuple(map(int, torch.__version__.split('+')[0].split('.')[:2])
 
 
 def isListempty(inList):
-    if isinstance(inList, list): # Is a list
-        return all(map(isListempty, inList))
-    return False # Not a list
+    return all(map(isListempty, inList)) if isinstance(inList, list) else False
 
 class YoloDetector:
     def __init__(
