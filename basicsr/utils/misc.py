@@ -29,7 +29,7 @@ def mkdir_and_rename(path):
         path (str): Folder path.
     """
     if osp.exists(path):
-        new_name = path + '_archived_' + get_time_str()
+        new_name = f'{path}_archived_{get_time_str()}'
         print(f'Path already exists. Rename it to {new_name}', flush=True)
         os.rename(path, new_name)
     os.makedirs(path, exist_ok=True)
@@ -72,11 +72,7 @@ def scandir(dir_path, suffix=None, recursive=False, full_path=False):
     def _scandir(dir_path, suffix, recursive):
         for entry in os.scandir(dir_path):
             if not entry.name.startswith('.') and entry.is_file():
-                if full_path:
-                    return_path = entry.path
-                else:
-                    return_path = osp.relpath(entry.path, root)
-
+                return_path = entry.path if full_path else osp.relpath(entry.path, root)
                 if suffix is None:
                     yield return_path
                 elif return_path.endswith(suffix):
